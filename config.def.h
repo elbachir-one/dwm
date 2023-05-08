@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx 	  = 0;      /* border pixel of windows */
+static const unsigned int borderpx 	    = 2;      /* border pixel of windows */
 static const unsigned int snap 		    = 32;     /* snap pixel */
 static const unsigned int gappih 	    = 4;      /* horiz inner gap between windows */
 static const unsigned int gappiv 	    = 4;      /* vert inner gap between windows */
@@ -19,9 +19,9 @@ static const char col_gray1[] 		    = "#000000";
 static const char col_gray2[] 		    = "#444444";
 static const char col_gray3[] 		    = "#dddfff";
 static const char col_gray4[] 		    = "#ffffff";
-static const char col_cyan[] 		      = "#202020";
-static const unsigned int baralpha    = 0xd0;
-static const unsigned int borderalpha = OPAQUE;
+static const char col_cyan[] 		    = "#202020";
+static const unsigned int baralpha      = 0xd0;
+static const unsigned int borderalpha   = OPAQUE;
 static const char *colors[][3] 		    = {
     /*                  fg         bg         border   */
     [SchemeNorm]  = {col_gray3, col_gray1,  col_gray2},
@@ -50,10 +50,7 @@ static const Rule rules[]               = {
     /* class     			  instance    title          tagsMask isfloating isterminal   noswallow   monitor
      */
     {"Surf", 			        NULL,     NULL, 		      1 << 3, 	False, 		    0, 	        0, 	      -1},
-    {"Chromium", 		      NULL,     NULL, 		      1 << 1, 	False, 		    0, 	       -1, 	      -1},
     {"Gimp", 			        NULL,     NULL, 		      1 << 3, 	False, 		    0, 	       -1,  	    -1},
-    {"st", 			          NULL,     "ranger", 	    1 << 6, 	False, 	    	0, 	       -1, 	      -1},
-    {"st", 			          NULL,     "htop", 		    1 << 5, 	False, 		    0, 	       -1,  	    -1},
     {"qutebrowser", 		  NULL,     NULL, 		      1 << 3, 	False, 		    0, 	       -1, 	      -1},
     {"st", 			          NULL,     NULL, 		      0, 		      0, 		      1, 	        1, 	      -1},
     {"Alacritty", 		    NULL,     NULL, 		      0, 		      0, 		      1, 	        1, 	      -1},
@@ -61,7 +58,7 @@ static const Rule rules[]               = {
 };
 
 /* layout(s) */
-static const float mfact 	        = 0.65; /* factor of master area size [0.05..0.95] */
+static const float mfact 	        = 0.60; /* factor of master area size [0.05..0.95] */
 static const int nmaster 	        = 1;    /* number of clients in master area */
 static const int resizehints 	    = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen   = 1;    /* 1 will force focus on the fullscreen window */
@@ -98,31 +95,16 @@ static const Layout layouts[]     = {
 static char dmenumon[2]	            = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]       = { "dmenu_run", NULL };
 static const char *termcmd[]        = { "st", NULL };
-static const char *clipcmd[]        = { "clipmenu", NULL };
-static const char *hcmd[]           = { "st", "-e", "htop", "-t", NULL };
-static const char *rancmd[]         = { "st", "-e", "ranger", NULL };
-static const char *lockcmd[]        = { "slock", NULL };
-static const char *screcmd[]        = { "scrot", "$HOME/Images/shots/shot-%Y-%T-screenshot.jpg", NULL };
-static const char *chrocmd[]        = { "Chromium", NULL };
 static const char *flamcmd[]        = { "flameshot", "gui", NULL };
-static const char *up[]             = { "amixer", "set", "Master", "10%+", NULL };
-static const char *mut[]            = { "amixer", "set", "Master", "toggle", NULL };
-static const char *down[]           = { "amixer", "set", "Master", "10%-", NULL };
 static const char scratchpadname[]  = "scratchpad";
 static const char *scratchpadcmd[]  = { "st", "-t", scratchpadname, "-g", "100x26", NULL };
 
 static Key keys[] = {
     /* modifier                     		 key            function               argument */
     {MODKEY, 					                  XK_f, 		        spawn, 		        {.v = flamcmd}},
-    {MODKEY,     		                    XK_s,  		        togglescratch,    {.v = scratchpadcmd}},
-    {MODKEY | ShiftMask, 			          XK_l, 		        spawn, 		        {.v = lockcmd}},
-    {MODKEY | ShiftMask, 			          XK_s, 		        spawn, 		        {.v = screcmd}},
-    {MODKEY, 					                  XK_a, 		        spawn, 		        {.v = chrocmd}},
-    {MODKEY, 					                  XK_r, 		        spawn, 		        {.v = rancmd}},
-    {MODKEY, 					                  XK_e, 		        spawn, 		        {.v = hcmd}},
+    {MODKEY,     		                          XK_s,  		        togglescratch,    {.v = scratchpadcmd}},
     {MODKEY, 					                  XK_p, 		        spawn, 		        {.v = dmenucmd}},
-    {MODKEY | ShiftMask, 			          XK_Return, 	      spawn, 		        {.v = termcmd}},
-    {MODKEY, 					                  XK_n, 		        spawn, 		        {.v = clipcmd}},
+    {MODKEY | ShiftMask, 			              XK_Return, 	        spawn, 		        {.v = termcmd}},
     {MODKEY, 					                  XK_b, 		        togglebar, 	      {0}},
     {MODKEY, 					                  XK_k, 		        focusstack, 	    {.i = +1}},
     {MODKEY, 					                  XK_l, 		        focusstack, 	    {.i = -1}},
@@ -130,7 +112,7 @@ static Key keys[] = {
     {MODKEY, 					                  XK_o, 		        incnmaster, 	    {.i = -1}},
     {MODKEY, 					                  XK_j, 		        setmfact, 	      {.f = -0.03}},
     {MODKEY, 					                  XK_m, 		        setmfact, 	      {.f = +0.03}},
-    {MODKEY | Mod4Mask, 			          XK_h, 		        incrgaps, 	      {.i = +1}},
+    {MODKEY | Mod4Mask, 			              XK_h, 		        incrgaps, 	      {.i = +1}},
     {MODKEY | Mod4Mask, 			          XK_l, 		        incrgaps, 	      {.i = -1}},
     {MODKEY | Mod4Mask | ShiftMask, 		XK_h, 		        incrogaps, 	      {.i = +1}},
     {MODKEY | Mod4Mask | ShiftMask, 		XK_l, 		        incrogaps, 	      {.i = -1}},
@@ -160,19 +142,16 @@ static Key keys[] = {
     {MODKEY, 					                  XK_semicolon,     focusmon, 	      {.i = +1}},
     {MODKEY | ShiftMask, 			          XK_comma, 	      tagmon, 	        {.i = -1}},
     {MODKEY | ShiftMask, 			          XK_semicolon, 	  tagmon, 	        {.i = +1}},
-    {0, 					                      XK_F3, 		        spawn, 		        {.v = up}},
-    {0, 					                      XK_F2, 		        spawn, 		        {.v = down}},
-    {0, 					                      XK_F4, 		        spawn, 		        {.v = mut}},
-    {MODKEY | ShiftMask, 			          XK_q,             quit, 			      {0}},
-  TAGKEYS( 				                      XK_ampersand, 			        0)
-	TAGKEYS( 				                      XK_eacute, 			            1)
-	TAGKEYS( 				                      XK_quotedbl, 			          2)
-  TAGKEYS( 				                      XK_apostrophe, 			        3)
-	TAGKEYS( 				                      XK_parenleft, 			        4)
-	TAGKEYS( 				                      XK_minus, 		            	5)
-  TAGKEYS( 				                      XK_egrave, 			            6)
-	TAGKEYS( 				                      XK_underscore, 			        7)
-  TAGKEYS( 				                      XK_ccedilla, 			          8)
+    {MODKEY | ShiftMask, 			              XK_q,             quit, 			      {0}},
+    TAGKEYS( 			                          XK_1, 			        0)
+	TAGKEYS( 				                      XK_2, 		            1)
+	TAGKEYS( 				                      XK_3, 		            2)
+    TAGKEYS( 			                          XK_4, 			        3)
+	TAGKEYS( 				                      XK_5, 			        4)
+	TAGKEYS( 				                      XK_6, 		        	5)
+    TAGKEYS( 			                          XK_7, 		            6)
+	TAGKEYS( 				                      XK_8, 			        7)
+    TAGKEYS( 			                          XK_9, 			        8)
 };
 
 /* button definitions */
